@@ -111,7 +111,7 @@ class AddDefaultIssueMetadataTest(unittest.TestCase):
     self.assertEqual('component1', testcase.get_metadata('issue_components'))
     self.assertEqual('label1,label2,label3',
                      testcase.get_metadata('issue_labels'))
-    sself.assertEqual({
+    self.assertEqual({
         "assignee": "dev3@example3.com"
     }, testcase.get_metadata('issue_metadata'))
     self.assertEqual(4, self.mock.info.call_count)
