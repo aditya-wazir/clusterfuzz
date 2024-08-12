@@ -680,8 +680,8 @@ class Testcase(Model):
       return self.metadata_cache
 
     try:
-      # if key == 'issue_metadata':
-      #   return json.loads(self.metadata_cache[key])
+      if key == 'issue_metadata':
+        return json.loads(self.metadata_cache[key])
       return self.metadata_cache[key]
     except KeyError:
       return default
@@ -689,9 +689,9 @@ class Testcase(Model):
   def set_metadata(self, key, value, update_testcase=True):
     """Set metadata for a test case."""
     self._ensure_metadata_is_cached()
-    # if key == 'issue_metadata' and not isinstance(value, str):
-    #   self.metadata_cache[key] = json.dumps(value)
-    # else:
+    if key == 'issue_metadata' and not isinstance(value, str):
+      self.metadata_cache[key] = json.dumps(value)
+    else:
     self.metadata_cache[key] = value
 
     self.additional_metadata = json_utils.dumps(self.metadata_cache)
