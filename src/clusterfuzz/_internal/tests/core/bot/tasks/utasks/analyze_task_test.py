@@ -44,14 +44,20 @@ class AddDefaultIssueMetadataTest(unittest.TestCase):
         'issue_owners': 'dev1@example1.com, dev2@example2.com',
         'issue_components': 'component1',
         'issue_labels': 'label1, label2 ,label3',
-        'issue_metadata': json.dumps({"assignee": "dev3@example3.com"})
+        'issue_metadata': json.dumps({
+            "assignee": "dev3@example3.com"
+        })
     }
 
     testcase = test_utils.create_generic_testcase()
     testcase.set_metadata('issue_owners', 'dev3@example3.com,dev2@example2.com')
     testcase.set_metadata('issue_components', 'component2')
     testcase.set_metadata('issue_labels', 'label4,label5, label2,')
-    testcase.set_metadata('issue_metadata', {"additional_fields": {'Acknowledgements': 'dev4@example4.com'}})
+    testcase.set_metadata(
+        'issue_metadata',
+        {"additional_fields": {
+            'Acknowledgements': 'dev4@example4.com'
+        }})
 
     analyze_task._add_default_issue_metadata(testcase, issue_metadata)  # pylint: disable=protected-access
     self.assertEqual('dev1@example1.com,dev2@example2.com,dev3@example3.com',
@@ -60,8 +66,11 @@ class AddDefaultIssueMetadataTest(unittest.TestCase):
                      testcase.get_metadata('issue_components'))
     self.assertEqual('label1,label2,label3,label4,label5',
                      testcase.get_metadata('issue_labels'))
-    self.assertEqual({"additional_fields": {'Acknowledgements': 'dev4@example4.com'}},
-                     testcase.get_metadata('issue_metadata'))
+    self.assertEqual({
+        "additional_fields": {
+            'Acknowledgements': 'dev4@example4.com'
+        }
+    }, testcase.get_metadata('issue_metadata'))
     self.assertEqual(3, self.mock.info.call_count)
 
   def test_no_testcase_metadata(self):
@@ -89,7 +98,9 @@ class AddDefaultIssueMetadataTest(unittest.TestCase):
         'issue_owners': 'dev1@example1.com,dev2@example2.com',
         'issue_components': 'component1',
         'issue_labels': 'label1,label2,label3',
-        'issue_metadata': json.dumps({"assignee": "dev3@example3.com"})
+        'issue_metadata': json.dumps({
+            "assignee": "dev3@example3.com"
+        })
     }
 
     testcase = test_utils.create_generic_testcase()
@@ -100,7 +111,9 @@ class AddDefaultIssueMetadataTest(unittest.TestCase):
     self.assertEqual('component1', testcase.get_metadata('issue_components'))
     self.assertEqual('label1,label2,label3',
                      testcase.get_metadata('issue_labels'))
-    self.assertEqual({"assignee": "dev3@example3.com"}, testcase.get_metadata('issue_metadata'))
+    sself.assertEqual({
+        "assignee": "dev3@example3.com"
+    }, testcase.get_metadata('issue_metadata'))
     self.assertEqual(4, self.mock.info.call_count)
 
   def test_same_testcase_and_default_issue_metadata(self):
